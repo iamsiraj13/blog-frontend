@@ -4,6 +4,7 @@ import { images } from "../../contstant";
 import BreadCrumbs from "../../components/BreadCrumbs";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentsContainer from "../../components/Comment/CommentsContainer";
+import SocialShareButtons from "../../components/SocialShareButtons";
 
 const ArticleDetailPage = () => {
   const postsData = [
@@ -86,10 +87,10 @@ const ArticleDetailPage = () => {
             <h2 className="font-roboto font-medium text-dark-hard mb-4 md:text-xl">
               Share on:
             </h2>
-            {/* <SocialShareButtons
+            <SocialShareButtons
               url={encodeURI(window.location.href)}
-              title={encodeURIComponent(data?.title)}
-            /> */}
+              title={encodeURIComponent("ok")}
+            />
           </div>
         </div>
       </section>
