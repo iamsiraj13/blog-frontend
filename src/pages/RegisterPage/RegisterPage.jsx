@@ -1,8 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MainLayout from "../../components/MainLayout";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { signup } from "../../services/index/users";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../store/reducers/userSlice";
+import { useEffect } from "react";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (data) => {
+      return signup(data);
+    },
+    onSuccess: (data) => {
+      dispatch(userAction.setUserInfo(data));
+      localStorage.setItem("account", JSON.stringify(data));
+      toast.success("Registration Successfull");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  useEffect(() => {
+    if (userState.userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userState.userInfo]);
+
   const {
     register,
     handleSubmit,
@@ -19,7 +48,7 @@ const RegisterPage = () => {
   });
 
   const submitHandler = (data) => {
-    console.log(data);
+    mutate(data);
   };
   const password = watch("password");
 
@@ -85,7 +114,7 @@ const RegisterPage = () => {
                 })}
                 placeholder="Enter email"
                 className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-5 py-2 font-semibold block outline-none border ${
-                  errors.email ? "border-red-500" : "border-[#c3cad9]"
+                  errors.email ? "border-red-500" : "border-gray-400"
                 } `}
               />
               {errors.email?.message && (
@@ -116,7 +145,7 @@ const RegisterPage = () => {
                 })}
                 placeholder="Enter password"
                 className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-5 py-2 font-semibold block outline-none border   ${
-                  errors.password ? "border-red-500" : "border-[#c3cad9]"
+                  errors.password ? "border-red-500" : "border-gray-400"
                 } `}
               />
               {errors.password?.message && (
@@ -148,7 +177,7 @@ const RegisterPage = () => {
                 })}
                 placeholder="Enter confirm password"
                 className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-5 py-2 font-semibold block outline-none border ${
-                  errors.confirmPassword ? "border-red-500" : "border-[#c3cad9]"
+                  errors.confirmPassword ? "border-red-500" : "border-gray-400"
                 }`}
               />
               {errors.confirmPassword?.message && (
@@ -157,13 +186,19 @@ const RegisterPage = () => {
                 </p>
               )}
             </div>
-            <button
-              type="submit"
-              disabled={!isValid}
-              className="bg-primary text-white font-semibold text-lg py-2 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              Register
-            </button>
+            {isLoading ? (
+              <button className="bg-red-500 text-white font-semibold text-lg py-2 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed">
+                Loading...
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={!isValid}
+                className="bg-primary text-white font-semibold text-lg py-2 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                Register
+              </button>
+            )}
             <p className="text-sm font-semibold text-[#5a7184]">
               You have an account?{" "}
               <Link to="/login" className="text-primary">

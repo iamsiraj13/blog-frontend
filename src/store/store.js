@@ -1,10 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todosReducer from "./reducers/todosSlice";
-import counterReducer from "./reducers/counterSlice";
+import { userReducer } from "./reducers/userSlice";
+
+const userInfoFromStorage = localStorage.getItem("account")
+  ? JSON.parse(localStorage.getItem("account"))
+  : null;
+
+const initialState = {
+  user: { userInfo: userInfoFromStorage },
+};
 
 export const store = configureStore({
   reducer: {
-    todos: todosReducer,
-    counter: counterReducer,
+    user: userReducer,
   },
+  preloadedState: initialState,
 });
