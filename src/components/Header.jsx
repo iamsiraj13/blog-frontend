@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { images } from "../contstant";
+import { logout } from "../store/action/user";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
@@ -74,11 +75,10 @@ const NavItem = ({ item }) => {
 
 const Header = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [navIsVisible, setNavIsVisible] = useState(false);
-  // const userState = useSelector((state) => state.user);
-  const [userState, setUserState] = useState(true);
-  const [profileDrowpdown, setProfileDrowpdown] = useState(false);
+  const userState = useSelector((state) => state.user);
+  const [profileDrowpdown, setProfileDrowpdown] = useState(true);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -86,9 +86,9 @@ const Header = () => {
     });
   };
 
-  // const logoutHandler = () => {
-  //   dispatch(logout());
-  // };
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white">
@@ -132,28 +132,28 @@ const Header = () => {
                       profileDrowpdown ? "block" : "hidden"
                     } lg:hidden transition-all duration-500 pt-4 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max`}
                   >
-                    <ul className="bg-dark-soft lg:bg-transparent text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
+                    <ul className="bg-dark-soft lg:bg-transparent text-left flex flex-col shadow-lg rounded-lg overflow-hidden">
                       {userState?.userInfo?.admin && (
                         <button
                           onClick={() => navigate("/admin")}
                           type="button"
                           className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                         >
-                          Admin Dashboard
+                          Dashboard
                         </button>
                       )}
 
                       <button
                         onClick={() => navigate("/profile")}
                         type="button"
-                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft text-left"
                       >
-                        Profile Page
+                        Profile
                       </button>
                       <button
-                        // onClick={logoutHandler}
+                        onClick={logoutHandler}
                         type="button"
-                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white text-left lg:text-dark-soft"
                       >
                         Logout
                       </button>

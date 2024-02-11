@@ -12,7 +12,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data) => {
       return signup(data);
     },
@@ -186,7 +186,7 @@ const RegisterPage = () => {
                 </p>
               )}
             </div>
-            {isLoading ? (
+            {isPending ? (
               <button className="bg-red-500 text-white font-semibold text-lg py-2 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed">
                 Loading...
               </button>
