@@ -1,7 +1,7 @@
 {
   "name": "blog-client",
   "private": true,
-  "proxy":"http://localhost:8000/api",
+  "proxy": "http://localhost:8000/api",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -16,6 +16,7 @@
     "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.0.5",
     "react-hook-form": "^7.50.1",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.0.1",

@@ -10,6 +10,7 @@ const userSlice = createSlice({
     setUserInfo: (state, action) => {
       state.userInfo = action.payload;
     },
+
     resetUser: (state) => {
       state.userInfo = null;
     },

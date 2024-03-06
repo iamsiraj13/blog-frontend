@@ -114,6 +114,7 @@ const LoginPage = () => {
                   errors.password ? "border-red-500" : "border-gray-400"
                 } `}
               />
+
               {errors.password?.message && (
                 <p className="text-red-500 text-xs mt-1 font-medium">
                   {errors.password?.message}
